@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.shop.mapper.BookMapper">
+
+	<!-- criteria(검색조건) -->
+	<sql id="criteria">
+		    <if test="keyword != null">
+			    bookName like '%' || #{keyword} || '%' and
+			</if>
+	</sql>
+
+	
+	<!-- 상품 검색 -->
+	<select id="getGoodsList" resultType="com.shop.model.BookVO">
+	
+		<![CDATA[
+		    select * from(
+		        select /*+INDEX_DESC(shop_book 인덱스ID)*/ rownum as rn, bookId, bookName,
+		            (select authorName from shop_author where shop_book.authorId = shop_author.authorId) authorName, authorId,
+		            (select cateName from shop_bcate where shop_book.cateCode = shop_bcate.cateCode) cateName,cateCode, publisher, publeYear, bookPrice  
+		        from shop_book
+		        where 
+	    ]]>
+	    
+	    <include refid="criteria"></include>
+	    
+	    <![CDATA[
+	    		        
+		        rownum <= #{pageNum} * #{amount} 
+	        	)
+	        where rn > (#{pageNum} -1) * #{amount}
+		]]>	  		
+	
+	</select>
+	
+	<!-- 상품 총 개수 -->
+	<select id="goodsGetTotal" resultType="int">
+	
+		select count(*) from shop_book
+		where
+		<include refid="criteria"></include> 
+		bookId >0
+		
+	</select>
+	
+  </mapper>
