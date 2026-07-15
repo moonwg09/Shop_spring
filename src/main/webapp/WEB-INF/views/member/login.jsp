@@ -34,6 +34,11 @@
 				<div class="login_button_wrap">
 					<input type="button" class="login_button" value="로그인">
 				</div>			
+				<div class="kakao_login_wrap">
+					<a href="${pageContext.request.contextPath}/auth/kakao/login" class="kakao_btn">
+						카카오 로그인
+					</a>
+				</div>
 			</div>
 		</form>
 		
@@ -51,6 +56,14 @@
 	    
 	});
 
+	/* 로그인 실패 시 피드백 */
+	$(document).ready(function() {
+	    var result = "${result}";
+	    
+	    if(result === "0") {
+	        alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+	    }
+	});
 </script>
 
 </body>

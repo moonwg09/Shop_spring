@@ -80,3 +80,26 @@
 .clearfix{
 	clear: both;
 }
+
+.kakao_login_wrap {
+	margin-top: 20px;
+	text-align: center;
+}
+
+.kakao_btn {
+	display: block;
+	width: 84%;
+	height: 80px;
+	line-height: 80px;
+	background-color: #FEE500;
+	font-size: 40px;
+	font-weight: 900;
+	color: #191919;
+	margin: auto;
+	text-decoration: none;
+	border-radius: 0px;
+}
+
+.kakao_btn:hover {
+	background-color: #E6CE00;
+}

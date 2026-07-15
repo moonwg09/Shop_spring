@@ -28,7 +28,7 @@
                         	<li><a href="/admin/main">관리자 페이지</a></li>
                     	</c:if>                    
 	                    <li>
-	                        로그아웃
+	                        <a href="/member/logout" id="logout_btn">로그아웃</a>
 	                    </li>
 	                    <li>
 	                        마이룸
@@ -119,6 +119,5 @@
         </div> <!-- class="footer" -->  
 	</div>
 </div>
-
 </body>
 </html>

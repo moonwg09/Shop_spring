@@ -4,9 +4,50 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.shop.mapper.MemberMapper">
   
-  	<!-- 로그인 -->
-	<select id="memberLogin" resultType="com.shop.model.MemberVO">
-		select memberId, memberName, adminck, money, point from shop_member where memberId = #{memberId} and memberPw = #{memberPw}
+	<!-- 회원가입 -->
+	<insert id="memberJoin" parameterType="com.shop.model.MemberVO">
+	    INSERT INTO shop_member (
+	        memberId, memberPw, memberName, memberMail, 
+	        memberAddr1, memberAddr2, memberAddr3, 
+	        adminCk, regDate, money, point
+	    ) VALUES (
+	        #{memberId}, #{memberPw}, #{memberName}, #{memberMail}, 
+	        #{memberAddr1}, #{memberAddr2}, #{memberAddr3}, 
+	        0, SYSDATE, 0, 0
+	    )
+	</insert>
+	
+	<!-- 아이디 중복 확인 -->
+	<select id="idCheck" resultType="int">
+	    SELECT COUNT(*) FROM shop_member WHERE memberId = #{memberId}
 	</select>
 	
+  	<!-- 로그인 -->
+	<select id="memberLogin" resultType="com.shop.model.MemberVO">
+		select memberId, memberName, adminCk, money, point from shop_member where memberId = #{memberId} and memberPw = #{memberPw}
+	</select>
+	
+	<!-- 가입 멤버인지 확인 -->
+	<select id="findMemberById" parameterType="string" resultType="com.shop.model.MemberVO">
+        SELECT memberId, memberName, memberMail, adminCk, money, point
+        FROM shop_MEMBER
+        WHERE memberId = #{memberId}
+    </select>
+    
+    <!-- 카카오 회원가입 -->
+	<insert id="insertKakaoMember" parameterType="com.shop.model.MemberVO">
+        INSERT INTO shop_MEMBER (
+            memberId, memberPw, memberName, memberMail, 
+            memberAddr1, memberAddr2, memberAddr3, 
+            adminCk, regDate, money, point
+        ) VALUES (
+            #{memberId},              
+            'KAKAO_SECRET_PASSWORD',  
+            #{memberName},            -- 카카오 닉네임
+            #{memberMail},            
+            '카카오 로그인 유저', ' ', ' ', 
+            0, SYSDATE, 0, 0 
+        )
+    </insert>
+    
   </mapper>
